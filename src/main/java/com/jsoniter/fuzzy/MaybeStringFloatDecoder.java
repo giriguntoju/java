@@ -6,20 +6,21 @@ import com.jsoniter.spi.Decoder;
 
 import java.io.IOException;
 
-public class MaybeStringFloatDecoder extends Decoder.FloatDecoder {
+public class StringFloatDecoder extends Decoder.FloatDecoder {
 
     @Override
     public float decodeFloat(JsonIterator iter) throws IOException {
         byte c = CodegenAccess.nextToken(iter);
-        if (c != '"') {
-            CodegenAccess.unreadByte(iter);
-            return iter.readFloat();
-        }
+       booleanCheck(c, iter);
         float val = iter.readFloat();
         c = CodegenAccess.nextToken(iter);
+        booleanCheck(c, iter);
+        return val;
+    }
+
+    private void booleanCheck(byte c, JsonIterator iter){
         if (c != '"') {
             throw iter.reportError("StringFloatDecoder", "expect \", but found: " + (char) c);
         }
-        return val;
     }
 }
