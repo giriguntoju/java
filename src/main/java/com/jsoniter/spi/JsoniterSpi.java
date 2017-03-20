@@ -355,6 +355,8 @@ public class JsoniterSpi {
         return setters;
     }
 
+
+
     private static List<Method> getAllMethods(Class clazz, boolean includingPrivate) {
         List<Method> allMethods = Arrays.asList(clazz.getMethods());
         if (includingPrivate) {
@@ -386,16 +388,7 @@ public class JsoniterSpi {
                 continue;
             }
             String methodName = method.getName();
-            if ("getClass".equals(methodName)) {
-                continue;
-            }
-            if (methodName.length() < 4) {
-                continue;
-            }
-            if (!methodName.startsWith("get")) {
-                continue;
-            }
-            if (method.getGenericParameterTypes().length != 0) {
+            if (checkIfToContine(method)){
                 continue;
             }
             String toName = methodName.substring("get".length());
@@ -410,6 +403,21 @@ public class JsoniterSpi {
             getters.add(getter);
         }
         return getters;
+    }
+
+    private static boolean checkIfToContine(Method method){
+        String methodName = method.getName();
+        if (methodName.equals("getClass") || !methodName.startsWith("get")||methodName.length() < 4) {
+            return true;
+        }
+
+        if (method.getGenericParameterTypes().length != 0) {
+            return true;
+        }
+
+        return false;
+
+
     }
 
     public static void dump() {
