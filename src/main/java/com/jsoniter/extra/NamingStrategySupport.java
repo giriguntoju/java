@@ -53,25 +53,7 @@ public class NamingStrategySupport {
             }
             return resultLength > 0 ? result.toString() : input;
         }
-    };
 
-    public static NamingStrategy UPPER_CAMEL_CASE = new NamingStrategy() {
-        @Override
-        public String translate(String input) {
-            if (input == null || input.length() == 0) {
-                return input; // garbage in, garbage out
-            }
-            // Replace first lower-case letter with upper-case equivalent
-            char c = input.charAt(0);
-            char uc = Character.toUpperCase(c);
-            if (c == uc) {
-                return input;
-            }
-            StringBuilder sb = new StringBuilder(input);
-            sb.setCharAt(0, uc);
-            return sb.toString();
-        }
-    };
 
     public static NamingStrategy LOWER_CASE = new NamingStrategy() {
         @Override
